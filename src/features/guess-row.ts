@@ -58,4 +58,7 @@
 //     </div>
 //   )
 // }
-//
+
+export function GuessRow() {
+  return <div></div>
+}
