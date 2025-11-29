@@ -62,67 +62,37 @@
 import { useState } from "react";
 import {
   Table,
-  TableHeader,
   TableBody,
-  TableFooter,
-  TableHead,
   TableRow,
   TableCell,
-  TableCaption,
 } from "@/components/ui/table";
+import { cn } from "@/lib/utils";
+import { type ComponentProps } from "react";
 
-function GuessTable() {
-  // return <Table>
-  //   <TableBody>
-  //     <TableRow>
-  //       <TableCell>
-  //         Datum 1
-  //       </TableCell>
-  //       <TableCell>
-  //         Datum 2
-  //       </TableCell>
-  //     </TableRow>
-  //   </TableBody>
-  // </Table>;
-
-  return <div className="grid grid-cols-6 grid-rows-5 gap-4">
-    <div>1</div>
-    <div>2</div>
-    <div>3</div>
-    <div>4</div>
-    <div>5</div>
-    <div>6</div>
-    <div>7</div>
-    <div>8</div>
-    <div>9</div>
-    <div>10</div>
-    <div>11</div>
-    <div>12</div>
-    <div>13</div>
-    <div>14</div>
-    <div>15</div>
-    <div>16</div>
-    <div>17</div>
-    <div>18</div>
-</div>
+function GuessTable({ className, ...props }: ComponentProps<"table">) {
+  return (
+    <Table
+      className={cn("grid grid-cols-6 grid-rows-5 gap-4", className)}
+      {...props}
+    >
+      <TableBody>
+        <GuessRow />
+      </TableBody>
+    </Table>
+  );
 }
 
-function GuessRow() {
-  const [count, setCount] = useState(0);
-  const handleKey = (event: any) => {
-    console.log("key handler")
-  }
+function GuessRow({ className, ...props }: ComponentProps<"tr">) {
   return (
-    <>
-      <div onKeyPress={handleKey}>
-        #123456
-      </div>
-    </>
+    <TableRow className={className} {...props}>
+      <TableCell>Datum 1</TableCell>
+      <TableCell>Datum 2</TableCell>
+    </TableRow>
   );
 }
 
 function GuessChar() {
-  return <div></div>
+  return <div></div>;
 }
 
 export { GuessTable, GuessRow, GuessChar };
