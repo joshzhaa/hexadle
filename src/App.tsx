@@ -1,4 +1,5 @@
 import { GuessTable } from "@/features/guess-table";
+import { ColorBlock } from "@/components/color-block";
 
 function App() {
   return (
@@ -7,6 +8,7 @@ function App() {
       <div className="flex">
         <GuessTable className="w-64" />
       </div>
+      <ColorBlock />
     </>
   );
 }
