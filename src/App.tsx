@@ -8,8 +8,8 @@ function App() {
       <div className="flex">
         <GuessTable className="w-64" />
       </div>
-      <ColorBlock color="123456" className="w-64" />
-      <ColorBlock color="523456" />
+      <ColorBlock color="123456" className="w-64 h-64" />
+      <ColorBlock color="523456" className="w-64 h-64" />
     </>
   );
 }

@@ -1,28 +1,19 @@
 import { Card } from "@/components/ui/card";
-import {
-  AspectRatio,
-  type AspectRatioProps,
-} from "@radix-ui/react-aspect-ratio";
+import { cn } from "@/lib/utils";
+import type { ComponentProps } from "react";
 
-interface ColorBlockProps extends AspectRatioProps {
+interface ColorBlockProps extends ComponentProps<"div"> {
   color: string;
 }
 
-function ColorBlock({
-  color,
-  ratio = 1 / 1,
-  className,
-  ...props
-}: ColorBlockProps) {
+function ColorBlock({ color, className, ...props }: ColorBlockProps) {
   // tailwind needs to know all classes at compile time (can't dynamically set color), so we use "style="
   return (
-    <div className={className} {...props}>
-      <AspectRatio ratio={ratio}>
-        <Card
-          className="h-full w-full"
-          style={{ backgroundColor: "#" + color }}
-        />
-      </AspectRatio>
+    <div className={cn("w-full h-full", className)} {...props}>
+      <Card
+        className="w-full h-full"
+        style={{ backgroundColor: "#" + color }}
+      />
     </div>
   );
 }
