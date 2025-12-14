@@ -8,7 +8,7 @@ function App() {
       <div className="flex">
         <GuessTable className="w-64" />
       </div>
-      <ColorBlock color="123456" ratio={16/9}/>
+      <ColorBlock color="123456" className="w-64" />
       <ColorBlock color="523456" />
     </>
   );
