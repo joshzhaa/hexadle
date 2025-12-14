@@ -24,16 +24,17 @@ function Game() {
   const [guesses, setGuesses] = useState([""]);
 
   const handleKey = (event: KeyboardEvent) => {
-    console.log(event.key);
     const key = event.key.toUpperCase();
-    if (!(key in AllowedInputs)) {
+    if (!AllowedInputs.has(key)) {
       return;
     }
     // INVARIANT: guesses.length >= 1
     let last = guesses[guesses.length - 1];
     if (last.length < 6) {
       last += key;
+      setGuesses(guesses.slice(0, guesses.length - 1).concat(last));
     } else {
+      setGuesses(guesses.concat(key));
     }
   };
 
