@@ -61,33 +61,44 @@
 
 import { useState } from "react";
 import { Table, TableBody, TableRow, TableCell } from "@/components/ui/table";
-import { cn } from "@/lib/utils";
 import { type ComponentProps } from "react";
 
 function GuessTable({ className, ...props }: ComponentProps<"table">) {
   return (
     <Table
-      className={cn("grid grid-cols-6 grid-rows-5 gap-4", className)}
+      className={className}
       {...props}
     >
       <TableBody>
-        <GuessRow />
+        <GuessRow color="123456"/>
+        <GuessRow color="123456"/>
+        <GuessRow color="654321"/>
       </TableBody>
     </Table>
   );
 }
 
-function GuessRow({ className, ...props }: ComponentProps<"tr">) {
+interface GuessRowProps extends ComponentProps<"tr"> {
+  color: string
+}
+
+function GuessRow({ color, className, ...props }: GuessRowProps) {
+  const populateCell = (char: string) => <GuessCell char={char as HexChar}/>
   return (
     <TableRow className={className} {...props}>
-      <TableCell>Datum 1</TableCell>
-      <TableCell>Datum 2</TableCell>
+      { color.split("").map(populateCell) }
     </TableRow>
   );
 }
 
-function GuessChar() {
-  return <div></div>;
+type HexChar = "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "A" | "B" | "C" | "D" | "E" | "F"
+
+interface GuessCellProps extends ComponentProps<"td"> {
+  char: HexChar
 }
 
-export { GuessTable, GuessRow, GuessChar };
+function GuessCell({char, ...props}: GuessCellProps) {
+  return <TableCell>{char}</TableCell>
+}
+
+export { GuessTable, GuessRow, GuessCell };
