@@ -46,13 +46,7 @@ function Game() {
   };
 
   useEffect(listenEvents, [handleKey]);
-  return (
-    <>
-      <div className="flex">
-        <GuessTable className="w-64" colors={guesses} />
-      </div>
-    </>
-  );
+  return <GuessTable colors={guesses} />;
 }
 
 export { Game };
