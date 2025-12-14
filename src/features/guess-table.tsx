@@ -60,12 +60,7 @@
 // }
 
 import { useState } from "react";
-import {
-  Table,
-  TableBody,
-  TableRow,
-  TableCell,
-} from "@/components/ui/table";
+import { Table, TableBody, TableRow, TableCell } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { type ComponentProps } from "react";
 
