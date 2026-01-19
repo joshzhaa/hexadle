@@ -1,11 +1,7 @@
 import { Game } from "@/features/game";
 
 function App() {
-  return (
-    <>
-      <Game />
-    </>
-  );
+  return <Game />;
 }
 
 export default App;

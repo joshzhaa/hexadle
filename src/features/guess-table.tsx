@@ -42,19 +42,26 @@ function GuessRow({ color, target, className, ...props }: GuessRowProps) {
 
   return (
     <TableRow className={cn("flex", className)} {...props}>
+      <TableCell className="flex-1"></TableCell>
+
       <TableCell className="size-20 flex items-center justify-center">
         <Hash />
       </TableCell>
+
       {chars.map(populateCell)}
+
       <TableCell className="size-20 flex items-center justify-center">
         <ChevronsRight />
       </TableCell>
+
       <TableCell className="size-20">
         <ColorBlock
           color={color.length == 6 ? color : WHITE}
           className="size-16"
         />
       </TableCell>
+
+      <TableCell className="flex-1"></TableCell>
     </TableRow>
   );
 }

@@ -33,12 +33,12 @@ function Game() {
     }
     // INVARIANT: guesses.length >= 1
     let last = guesses[guesses.length - 1];
-    if (last.length < 6) {
-      last += key;
-      setGuesses(guesses.slice(0, guesses.length - 1).concat(last));
-    } else {
-      setGuesses(guesses.concat(key));
+    last += key;
+    const newGuesses = guesses.slice(0, guesses.length - 1).concat(last);
+    if (newGuesses[guesses.length - 1].length == 6) {
+      newGuesses.push("");
     }
+    setGuesses(newGuesses);
   };
 
   const listenEvents = () => {
