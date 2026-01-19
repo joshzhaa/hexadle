@@ -3,14 +3,19 @@ import { Card } from "@/components/ui/card";
 import { Table, TableBody, TableRow, TableCell } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { type ComponentProps } from "react";
+import { Hash, ChevronsRight } from "lucide-react";
+import { evaluate } from "@/lib/evaluate-guess";
 
 interface GuessTableProps extends ComponentProps<"table"> {
   colors: string[];
+  target: string;
 }
 
-function GuessTable({ colors, className, ...props }: GuessTableProps) {
+const WHITE = "FFFFFF";
+
+function GuessTable({ colors, target, className, ...props }: GuessTableProps) {
   const populateRow = (color: string, i: number) => (
-    <GuessRow color={color} key={i} />
+    <GuessRow color={color} target={target} key={i} />
   );
   return (
     <Table className={className} {...props}>
@@ -21,23 +26,32 @@ function GuessTable({ colors, className, ...props }: GuessTableProps) {
 
 interface GuessRowProps extends ComponentProps<"tr"> {
   color: string;
+  target: string;
 }
 
-function GuessRow({ color, className, ...props }: GuessRowProps) {
+function GuessRow({ color, target, className, ...props }: GuessRowProps) {
   const chars = color.split("");
   while (chars.length < 6) {
     chars.push("");
   }
+  const backgrounds = evaluate(chars, target.split(""));
+
   const populateCell = (char: string, i: number) => (
-    <GuessCell char={char as HexChar} key={i} />
+    <GuessCell char={char as HexChar} background={backgrounds[i]} key={i} />
   );
+
   return (
     <TableRow className={cn("flex", className)} {...props}>
-      <TableCell className="size-16 text-center">#</TableCell>
+      <TableCell className="size-20 flex items-center justify-center">
+        <Hash />
+      </TableCell>
       {chars.map(populateCell)}
-      <TableCell className="size-16">
+      <TableCell className="size-20 flex items-center justify-center">
+        <ChevronsRight />
+      </TableCell>
+      <TableCell className="size-20">
         <ColorBlock
-          color={color.length == 6 ? color : "FFFFFF"}
+          color={color.length == 6 ? color : WHITE}
           className="size-16"
         />
       </TableCell>
@@ -65,12 +79,18 @@ type HexChar =
 
 interface GuessCellProps extends ComponentProps<"td"> {
   char: HexChar;
+  background: string;
 }
 
-function GuessCell({ char, ...props }: GuessCellProps) {
+function GuessCell({ char, background, ...props }: GuessCellProps) {
   return (
     <TableCell className="" {...props}>
-      <Card className="size-16 text-center">{char}</Card>
+      <Card
+        className="size-16 text-center text-xl flex items-center justify-center"
+        style={{ backgroundColor: "#" + background }}
+      >
+        {char}
+      </Card>
     </TableCell>
   );
 }

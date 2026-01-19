@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { GuessTable } from "@/features/guess-table";
+import { ColorBlock } from "@/components/color-block";
+import { CircleQuestionMark } from "lucide-react";
 
 const AllowedInputs = new Set([
   "0",
@@ -22,6 +24,7 @@ const AllowedInputs = new Set([
 
 function Game() {
   const [guesses, setGuesses] = useState([""]);
+  const [targetColor, _] = useState("A8C1EE");
 
   const handleKey = (event: KeyboardEvent) => {
     const key = event.key.toUpperCase();
@@ -46,7 +49,18 @@ function Game() {
   };
 
   useEffect(listenEvents, [handleKey]);
-  return <GuessTable colors={guesses} />;
+
+  return (
+    <>
+      <h1 className="flex items-center justify-center">
+        <ColorBlock color={targetColor} className="size-26 p-3" />
+        <CircleQuestionMark />
+      </h1>
+      <div className="flex items-center justify-center">
+        <GuessTable colors={guesses} target={targetColor} />
+      </div>
+    </>
+  );
 }
 
 export { Game };
