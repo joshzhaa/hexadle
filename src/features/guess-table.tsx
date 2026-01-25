@@ -4,7 +4,7 @@ import { Table, TableBody, TableRow, TableCell } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { type ComponentProps } from "react";
 import { Hash, ChevronsRight } from "lucide-react";
-import { evaluate } from "@/lib/evaluate-guess";
+import { evaluate, emptyBackgrounds } from "@/lib/evaluate-guess";
 
 interface GuessTableProps extends ComponentProps<"table"> {
   colors: string[];
@@ -31,10 +31,13 @@ interface GuessRowProps extends ComponentProps<"tr"> {
 
 function GuessRow({ color, target, className, ...props }: GuessRowProps) {
   const chars = color.split("");
+  const backgrounds =
+    chars.length == 6 ? evaluate(chars, target.split("")) : emptyBackgrounds();
+
+  // extend chars to get "blank" cards
   while (chars.length < 6) {
     chars.push("");
   }
-  const backgrounds = evaluate(chars, target.split(""));
 
   const populateCell = (char: string, i: number) => (
     <GuessCell char={char as HexChar} background={backgrounds[i]} key={i} />
