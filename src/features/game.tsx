@@ -20,6 +20,7 @@ const AllowedInputs = new Set([
   "D",
   "E",
   "F",
+  "BACKSPACE",
 ]);
 
 function Game() {
@@ -34,9 +35,16 @@ function Game() {
       }
       // INVARIANT: guesses.length >= 1
       let last = guesses[guesses.length - 1];
-      last += key;
+
+      if (key == "BACKSPACE") {
+        last = last.slice(0, last.length - 1);
+      } else {
+        last += key;
+      }
+
       const newGuesses = guesses.slice(0, guesses.length - 1).concat(last);
       if (newGuesses[guesses.length - 1].length == 6) {
+        // maintain invariant for next call
         newGuesses.push("");
       }
       setGuesses(newGuesses);
