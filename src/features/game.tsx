@@ -1,7 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
 import { GuessTable } from "@/features/guess-table";
 import { ColorBlock } from "@/components/color-block";
-import { CircleQuestionMark } from "lucide-react";
+import {
+  HoverCard,
+  HoverCardTrigger,
+  HoverCardContent,
+} from "@/components/ui/hover-card";
+import { CircleQuestionMark, RefreshCw } from "lucide-react";
 
 const AllowedInputs = new Set([
   "0",
@@ -25,7 +30,7 @@ const AllowedInputs = new Set([
 
 function Game() {
   const [guesses, setGuesses] = useState([""]);
-  const [targetColor] = useState("A8C1EE");
+  const [targetColor, setTargetColor] = useState("A8C1EE");
 
   const handleKey = useCallback(
     (event: KeyboardEvent) => {
@@ -73,13 +78,37 @@ function Game() {
 
 interface GameHeaderProps {
   targetColor: string;
+  setTargetColor: (color: string) => void;
 }
 
-function GameHeader({ targetColor }: GameHeaderProps) {
+const randomHex = (): string =>
+  Math.floor(Math.random() * 0xffffff)
+    .toString(16)
+    .padStart(6, "0");
+
+function GameHeader({ targetColor, setTargetColor }: GameHeaderProps) {
+  console.log(randomHex());
   return (
     <h1 className="flex items-center justify-center">
-      <ColorBlock color={targetColor} className="size-26 p-3" />
-      <CircleQuestionMark />
+      <HoverCard openDelay={1} closeDelay={100}>
+        <HoverCardTrigger>
+          <button onClick={() => setTargetColor(randomHex())}>
+            <RefreshCw />
+          </button>
+        </HoverCardTrigger>
+        <HoverCardContent className="flex">
+          <div>Is it time to get a new color?</div>
+        </HoverCardContent>
+      </HoverCard>
+
+      <ColorBlock color={targetColor} className="size-26 p-3.5" />
+
+      <HoverCard openDelay={1} closeDelay={100}>
+        <HoverCardTrigger>
+          <CircleQuestionMark />
+        </HoverCardTrigger>
+        <HoverCardContent>What is this color's hex code?</HoverCardContent>
+      </HoverCard>
     </h1>
   );
 }
