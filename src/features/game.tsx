@@ -29,8 +29,15 @@ const AllowedInputs = new Set([
   "BACKSPACE",
 ]);
 
+const NUM_GUESSES = 7;
+const INITIAL_GUESS_ARRAY = Array(NUM_GUESSES).fill("");
+
+const hasEmptySpace = (str: string): boolean => {
+  return str.length != 6;
+};
+
 function Game() {
-  const [guesses, setGuesses] = useState([""]);
+  const [guesses, setGuesses] = useState(INITIAL_GUESS_ARRAY);
   const [targetColor, setTargetColor] = useState("A8C1EE");
 
   const handleKey = useCallback(
@@ -39,21 +46,26 @@ function Game() {
       if (!AllowedInputs.has(key)) {
         return;
       }
-      // INVARIANT: guesses.length >= 1
-      let last = guesses[guesses.length - 1];
+
+      const activeGuessIndex = guesses.findIndex(hasEmptySpace);
+      console.log(activeGuessIndex);
+      let activeGuess = guesses[activeGuessIndex];
+      console.log(activeGuess);
 
       if (key == "BACKSPACE") {
-        last = last.slice(0, last.length - 1);
+        activeGuess = activeGuess.slice(0, activeGuess.length - 1);
       } else {
-        last += key;
+        activeGuess += key;
       }
 
-      const newGuesses = guesses.slice(0, guesses.length - 1).concat(last);
-      if (newGuesses[guesses.length - 1].length == 6) {
-        // maintain invariant for next call
-        newGuesses.push("");
-      }
-      setGuesses(newGuesses);
+      setGuesses(
+        guesses.map((element, i) => {
+          if (i == activeGuessIndex) {
+            return activeGuess;
+          }
+          return element;
+        }),
+      );
     },
     [guesses],
   );
@@ -69,7 +81,11 @@ function Game() {
 
   return (
     <>
-      <GameHeader targetColor={targetColor} setTargetColor={setTargetColor}/>
+      <GameHeader
+        targetColor={targetColor}
+        setTargetColor={setTargetColor}
+        setGuesses={setGuesses}
+      />
       <div className="flex items-center justify-center">
         <GuessTable colors={guesses} target={targetColor} />
       </div>
@@ -80,21 +96,33 @@ function Game() {
 interface GameHeaderProps {
   targetColor: string;
   setTargetColor: (color: string) => void;
+  setGuesses: (guesses: string[]) => void;
 }
 
 const randomHex = (): string =>
   Math.floor(Math.random() * 0xffffff)
     .toString(16)
-    .padStart(6, "0");
+    .padStart(6, "0")
+    .toUpperCase();
 
-function GameHeader({ targetColor, setTargetColor }: GameHeaderProps) {
+function GameHeader({
+  targetColor,
+  setTargetColor,
+  setGuesses,
+}: GameHeaderProps) {
   console.log(randomHex());
   return (
     <h1 className="flex items-center justify-center">
       <HoverCard openDelay={1} closeDelay={100}>
         <HoverCardTrigger>
-          <Button onClick={() => setTargetColor(randomHex())} className="size-12">
-            <RefreshCw className="size-5"/>
+          <Button
+            onClick={() => {
+              setTargetColor(randomHex());
+              setGuesses(INITIAL_GUESS_ARRAY);
+            }}
+            className="size-12"
+          >
+            <RefreshCw className="size-5" />
           </Button>
         </HoverCardTrigger>
         <HoverCardContent className="flex">
@@ -102,11 +130,11 @@ function GameHeader({ targetColor, setTargetColor }: GameHeaderProps) {
         </HoverCardContent>
       </HoverCard>
 
-      <ColorBlock color={targetColor} className="size-40 p-8" />
+      <ColorBlock color={targetColor} className="size-20 m-8" />
       <HoverCard openDelay={1} closeDelay={100}>
         <HoverCardTrigger>
           <Button className="size-12">
-            <CircleQuestionMark className="size-5"/>
+            <CircleQuestionMark className="size-5" />
           </Button>
         </HoverCardTrigger>
         <HoverCardContent>What is this color's hex code?</HoverCardContent>
