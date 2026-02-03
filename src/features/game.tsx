@@ -1,13 +1,14 @@
 import { useCallback, useEffect, useState } from "react";
-import { GuessTable } from "@/features/guess-table";
-import { ColorBlock } from "@/components/color-block";
+import { CircleQuestionMark, RefreshCw } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   HoverCard,
   HoverCardTrigger,
   HoverCardContent,
 } from "@/components/ui/hover-card";
-import { CircleQuestionMark, RefreshCw } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ColorBlock } from "@/components/color-block";
+import { GuessTable } from "@/features/guess-table";
+import { randomHex } from "@/lib/random";
 
 const AllowedInputs = new Set([
   "0",
@@ -38,7 +39,7 @@ const hasEmptySpace = (str: string): boolean => {
 
 function Game() {
   const [guesses, setGuesses] = useState(INITIAL_GUESS_ARRAY);
-  const [targetColor, setTargetColor] = useState("A8C1EE");
+  const [targetColor, setTargetColor] = useState(randomHex());
 
   const handleKey = useCallback(
     (event: KeyboardEvent) => {
@@ -48,9 +49,7 @@ function Game() {
       }
 
       const activeGuessIndex = guesses.findIndex(hasEmptySpace);
-      console.log(activeGuessIndex);
       let activeGuess = guesses[activeGuessIndex];
-      console.log(activeGuess);
 
       if (key == "BACKSPACE") {
         activeGuess = activeGuess.slice(0, activeGuess.length - 1);
@@ -86,7 +85,7 @@ function Game() {
         setTargetColor={setTargetColor}
         setGuesses={setGuesses}
       />
-      <div className="flex items-center justify-center">
+      <div>
         <GuessTable colors={guesses} target={targetColor} />
       </div>
     </>
@@ -99,18 +98,11 @@ interface GameHeaderProps {
   setGuesses: (guesses: string[]) => void;
 }
 
-const randomHex = (): string =>
-  Math.floor(Math.random() * 0xffffff)
-    .toString(16)
-    .padStart(6, "0")
-    .toUpperCase();
-
 function GameHeader({
   targetColor,
   setTargetColor,
   setGuesses,
 }: GameHeaderProps) {
-  console.log(randomHex());
   return (
     <h1 className="flex items-center justify-center">
       <HoverCard openDelay={1} closeDelay={100}>

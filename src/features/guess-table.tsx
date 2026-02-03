@@ -45,7 +45,7 @@ function GuessRow({ color, target, className, ...props }: GuessRowProps) {
 
   return (
     <TableRow className={cn("flex", className)} {...props}>
-      <div className="flex-1"></div>
+      <TableCell className="flex-1"></TableCell>
 
       <TableCell className="size-20 flex items-center justify-center">
         <Hash />
@@ -64,7 +64,7 @@ function GuessRow({ color, target, className, ...props }: GuessRowProps) {
         />
       </TableCell>
 
-      <div className="flex-1"></div>
+      <TableCell className="flex-1"></TableCell>
     </TableRow>
   );
 }
