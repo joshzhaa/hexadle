@@ -11,7 +11,7 @@ interface GuessTableProps extends ComponentProps<"table"> {
   target: string;
 }
 
-const WHITE = "FFFFFF";
+const WHITE = "FAFAFA";
 
 function GuessTable({ colors, target, className, ...props }: GuessTableProps) {
   const populateRow = (color: string, i: number) => (
@@ -45,7 +45,7 @@ function GuessRow({ color, target, className, ...props }: GuessRowProps) {
 
   return (
     <TableRow className={cn("flex", className)} {...props}>
-      <TableCell className="flex-1"></TableCell>
+      <div className="flex-1"></div>
 
       <TableCell className="size-20 flex items-center justify-center">
         <Hash />
@@ -64,7 +64,7 @@ function GuessRow({ color, target, className, ...props }: GuessRowProps) {
         />
       </TableCell>
 
-      <TableCell className="flex-1"></TableCell>
+      <div className="flex-1"></div>
     </TableRow>
   );
 }

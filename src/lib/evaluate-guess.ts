@@ -1,7 +1,7 @@
 // computes the correctness of guesses and returns background color arrays
 const GREEN = "3FA34D";
 const YELLOW = "FFD639";
-const WHITE = "FFFFFF";
+const WHITE = "FAFAFA";
 
 function emptyBackgrounds(): string[] {
   // TODO: add dark mode
