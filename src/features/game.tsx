@@ -112,7 +112,7 @@ function GameHeader({
               setTargetColor(randomHex());
               setGuesses(INITIAL_GUESS_ARRAY);
             }}
-            className="size-12"
+            className="size-12 bg-[#F1F1F1] border-[#CCCCCC] border-2 dark"
           >
             <RefreshCw className="size-5" />
           </Button>
@@ -125,7 +125,7 @@ function GameHeader({
       <ColorBlock color={targetColor} className="size-20 m-8" />
       <HoverCard openDelay={1} closeDelay={100}>
         <HoverCardTrigger>
-          <Button className="size-12">
+          <Button className="size-12 bg-[#FAFAFA] border-[#CCCCCC] border-2 dark">
             <CircleQuestionMark className="size-5" />
           </Button>
         </HoverCardTrigger>

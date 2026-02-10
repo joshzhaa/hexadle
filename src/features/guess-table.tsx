@@ -11,7 +11,7 @@ interface GuessTableProps extends ComponentProps<"table"> {
   target: string;
 }
 
-const WHITE = "FAFAFA";
+const WHITE = "F5F5F5";
 
 function GuessTable({ colors, target, className, ...props }: GuessTableProps) {
   const populateRow = (color: string, i: number) => (
