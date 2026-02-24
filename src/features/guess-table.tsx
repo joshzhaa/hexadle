@@ -32,7 +32,7 @@ interface GuessRowProps extends ComponentProps<"tr"> {
 function GuessRow({ color, target, className, ...props }: GuessRowProps) {
   const chars = color.split("");
   const backgrounds =
-    chars.length == 6 ? evaluate(chars, target.split("")) : emptyBackgrounds();
+    chars.length === 6 ? evaluate(chars, target.split("")) : emptyBackgrounds();
 
   // extend chars to get "blank" cards
   while (chars.length < 6) {
@@ -57,7 +57,7 @@ function GuessRow({ color, target, className, ...props }: GuessRowProps) {
         <ChevronsRight />
       </TableCell>
 
-      <TableCell className="size-20">
+      <TableCell>
         <ColorBlock
           color={color.length == 6 ? color : WHITE}
           className="size-16"
