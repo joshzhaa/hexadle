@@ -42,7 +42,7 @@ function Game() {
   const [guesses, setGuesses] = useState(INITIAL_GUESS_ARRAY);
   const [targetColor, setTargetColor] = useState(randomHex());
   const [gameOver, setGameOver] = useState(false);
-  const [win, setWin] = useState(true); // optimism, means nothing when gameOver is false
+  const [win, setWin] = useState(false); // means nothing when gameOver is false
 
   const handleKey = useCallback(
     (event: KeyboardEvent) => {
@@ -52,7 +52,7 @@ function Game() {
       }
 
       const activeGuessIndex = guesses.findIndex(hasEmptySpace);
-      if (activeGuessIndex === -1) {
+      if (gameOver || activeGuessIndex === -1) {
         return;
       }
       let activeGuess = guesses[activeGuessIndex];
@@ -71,12 +71,15 @@ function Game() {
           return element;
         }),
       );
-      if (activeGuessIndex === 6 && activeGuess.length === 6) {
-        setWin(activeGuess === targetColor);
+      if (activeGuess === targetColor) {
+        setWin(true);
+        setGameOver(true);
+      } else if (activeGuessIndex === 6 && activeGuess.length === 6) {
+        setWin(false);
         setGameOver(true);
       }
     },
-    [guesses, targetColor],
+    [guesses, targetColor, gameOver],
   );
 
   const listenEvents = () => {
@@ -102,6 +105,10 @@ function Game() {
           explanation={win ? "Play again?" : `The color was #${targetColor}`}
           visible={gameOver}
           setVisible={setGameOver}
+          resetGame={() => {
+            setGuesses(INITIAL_GUESS_ARRAY);
+            setTargetColor(randomHex());
+          }}
         />
       </div>
     </>

@@ -14,6 +14,7 @@ interface VictoryAlertProps {
   explanation: string;
   visible: boolean;
   setVisible: (newValue: boolean) => void;
+  resetGame: () => void;
 }
 
 function VictoryAlert({
@@ -21,6 +22,7 @@ function VictoryAlert({
   explanation,
   visible,
   setVisible,
+  resetGame,
 }: VictoryAlertProps) {
   return (
     <AlertDialog open={visible} onOpenChange={setVisible}>
@@ -31,7 +33,7 @@ function VictoryAlert({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction>Play Again</AlertDialogAction>
+          <AlertDialogAction onClick={resetGame}>Play Again</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
