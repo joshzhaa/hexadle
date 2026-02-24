@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/hover-card";
 import { ColorBlock } from "@/components/color-block";
 import { GuessTable } from "@/features/guess-table";
-import { VictoryAlert, LossAlert } from "@/features/victory-loss";
+import { VictoryAlert } from "@/features/victory-loss";
 import { randomHex } from "@/lib/random";
 
 const AllowedInputs = new Set([
@@ -41,6 +41,8 @@ const hasEmptySpace = (str: string): boolean => {
 function Game() {
   const [guesses, setGuesses] = useState(INITIAL_GUESS_ARRAY);
   const [targetColor, setTargetColor] = useState(randomHex());
+  const [gameOver, setGameOver] = useState(false);
+  const [win, setWin] = useState(true); // optimism, means nothing when gameOver is false
 
   const handleKey = useCallback(
     (event: KeyboardEvent) => {
@@ -50,6 +52,9 @@ function Game() {
       }
 
       const activeGuessIndex = guesses.findIndex(hasEmptySpace);
+      if (activeGuessIndex === -1) {
+        return;
+      }
       let activeGuess = guesses[activeGuessIndex];
 
       if (key == "BACKSPACE") {
@@ -66,8 +71,12 @@ function Game() {
           return element;
         }),
       );
+      if (activeGuessIndex === 6 && activeGuess.length === 6) {
+        setWin(activeGuess === targetColor);
+        setGameOver(true);
+      }
     },
-    [guesses],
+    [guesses, targetColor],
   );
 
   const listenEvents = () => {
@@ -88,7 +97,12 @@ function Game() {
       />
       <div>
         <GuessTable colors={guesses} target={targetColor} />
-        <VictoryAlert />
+        <VictoryAlert
+          title={win ? "You Win!" : "You Lose..."}
+          explanation={win ? "Play again?" : `The color was #${targetColor}`}
+          visible={gameOver}
+          setVisible={setGameOver}
+        />
       </div>
     </>
   );

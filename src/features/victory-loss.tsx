@@ -7,52 +7,35 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
 
-function VictoryAlert() {
+interface VictoryAlertProps {
+  title: string;
+  explanation: string;
+  visible: boolean;
+  setVisible: (newValue: boolean) => void;
+}
+
+function VictoryAlert({
+  title,
+  explanation,
+  visible,
+  setVisible,
+}: VictoryAlertProps) {
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button variant="outline">Show Dialog</Button>
-      </AlertDialogTrigger>
+    <AlertDialog open={visible} onOpenChange={setVisible}>
       <AlertDialogContent size="sm">
         <AlertDialogHeader>
-          <AlertDialogTitle>Allow accessory to connect?</AlertDialogTitle>
-          <AlertDialogDescription>
-            Do you want to allow the USB accessory to connect to this device?
-          </AlertDialogDescription>
+          <AlertDialogTitle> {title} </AlertDialogTitle>
+          <AlertDialogDescription>{explanation}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Don&apos;t allow</AlertDialogCancel>
-          <AlertDialogAction>Allow</AlertDialogAction>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction>Play Again</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
   );
 }
 
-function LossAlert() {
-  return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button variant="outline">Show Dialog</Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent size="sm">
-        <AlertDialogHeader>
-          <AlertDialogTitle>Allow accessory to connect?</AlertDialogTitle>
-          <AlertDialogDescription>
-            Do you want to allow the USB accessory to connect to this device?
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>Don&apos;t allow</AlertDialogCancel>
-          <AlertDialogAction>Allow</AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
-  );
-}
-
-export { VictoryAlert, LossAlert };
+export { VictoryAlert };
