@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/hover-card";
 import { ColorBlock } from "@/components/color-block";
 import { GuessTable } from "@/features/guess-table";
+import { VictoryAlert, LossAlert } from "@/features/victory-loss";
 import { randomHex } from "@/lib/random";
 
 const AllowedInputs = new Set([
@@ -87,6 +88,7 @@ function Game() {
       />
       <div>
         <GuessTable colors={guesses} target={targetColor} />
+        <VictoryAlert />
       </div>
     </>
   );
